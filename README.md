@@ -1,49 +1,27 @@
-# MERN
-##### Note:
-This master branch contain the source code & how to run MERN locally without a container.
+# Dockerize MERN
+-   Create a Network so that the docker contains can talk to each other.
+    -   ```docker network create <network name>```
+-   Write a [Dockerfile](mern/frontend/Dockerfile) for frontend part with the given commands in the master branch.
+-   Create a Front End image.
+    -   ```docker build -t <mern-frontend image name> <Path to the frontend dockerfile>```
+-   Create a Front End container
+    -   ```docker run --name=<Container_Name> --network=<Network_Name> -d -p 5173:5173 <mern-frontend image>```
+-   Now you can access your frent end application in browser with ```localhost:5173```. Here you can just see the frent end application but can't do anything as you don't have the backend application.
+-   But before running the backend container. Create Data Base. Running Data Base first even before the front end is the best practice.
+-   Create a Data Base 
+    -   ```docker run --network=<Network_Name> --anme <Data_Base_Name> -d -p 27017:27017 -v <Volume_Path_In_HOST>:<Volume_Path_In_Container> <Data_Base_Image>```
+    -   Now you can access in web brouser with ```localhost:27017```.
+-   Write a [Dockerfile](mern/backend/Dockerfile) for backend part with the given commands in the master branch.
+-   Create a backend image.
+    -   ```docker build -t <Image_Name> <Path_To_The_Backend_Dockerfile>```
+-   Create a BackendEnd container
+    -   ```docker run --name=<Container_Name> --network=<Network_Name> -d -p 5050:5050 <mern-backend image>```
+    -   You can access in web brouser with ```localhost:5050```.
 
-Source Code from: [iam-veramallu:MERN](https://github.com/iam-veeramalla/MERN-docker-compose/tree/main)
+-   If all the containers you can save/edit/delete the employe details.
 
-##  Introduction
--   MERN is a 3 tire application. Its architecture containt the following
-    1.  Presentation layer: Simply UI or Frontend tire
-    2.  Business logic layer: Simpley Server or Backend tire.
-    3.  Data Base.
-###### Note: For any 3 tire application it has the above three.
-
--   MERN Stack
-    -   M:  Mongo DB - its a data base
-    -   E:  Express JS
-    -   R:  React JS
-    -   N:  Node JS
-##### Note: When you are write a 3 tire application by using the above mensioned "MERN" means you are using MERN Stack.
-
--   In MERN Stack 
-    -   For FrontEnd - React JS
-    -   For BackEnd  - Express JS & Node JS
-    -   For DataBase - Mongo DB
-
-### Prerequisite
-
-- Install `npm`
-
-#### Start Server:
-
-```
-cd mern/server
-npm install
-npm start
-```
-
-#### Start Client
-
-```
-cd mern/client
-npm install
-npm run dev
-```
-
-### Why MERN is Popular
--   Its open-source
--   Its a Java Script Framework. It is easy to learn resto fo them when you know Java Script as all of them belong to the same family.
--   Simplicity
+## Using Docker Compose
+-   We can build docker images & Create containers for this 3 tire application at one go with docker-compose.
+-   Write Dockerfiles for Frentend & Backendend parts with the commands given in master branch.
+-   For that Create a [```docker-compose.yml```](docker-compose.yml) file.
+-   The compose file should contain Service, Network & Volume.
